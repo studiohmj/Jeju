@@ -25,13 +25,13 @@
   --line:var(--rule);
   --line-dk:var(--rule);
   --on-dk:var(--ink);
-  --on-dk2:var(--sage);
+  --on-dk2:#666C67; /* 표면 위 보조 글자 — 대비 4.5 이상 */
   --navy:var(--ink);
   --tint:rgba(22,25,26,.05);
   --kf-c:#16191A; --kf-b:var(--orange);
   --ks-c:#16191A; --ks-b:#ECECE7;
-  --kr-c:#6F7570; --kr-b:#F7F7F4;
-  --map-bg:var(--panel); --zone:#FFFFFF; --zone-ln:#D3D5CE; --zone-hv:#FFEBDC; --coast:var(--ink); --map-tx:var(--ink); --map-tx2:var(--sage); --map-rule:var(--rule);
+  --kr-c:#5F655F; --kr-b:#F1F1ED;
+  --map-bg:var(--panel); --zone:#FFFFFF; --zone-ln:#D3D5CE; --zone-hv:#FFEBDC; --coast:var(--ink); --map-tx:var(--ink); --map-tx2:#666C67; --map-rule:var(--rule);
   --ivory:var(--bg); --paper:var(--bg); --char:var(--ink); --ink-2:var(--sage); --accent:var(--green); --accent-ink:var(--green-tx);
   --font:"Pretendard Variable",Pretendard,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
   --gut:clamp(20px,4.4vw,60px);
@@ -141,6 +141,7 @@ main{min-height:60vh}
   --green:#F4F2EC; --green-dk:#DCDAD4; --on-sel:#111315;
   --seg-on:#F4F2EC; --seg-on-tx:#111315;
   --ks-b:rgba(244,242,236,.12); --kf-c:#111315; --ks-c:#F4F2EC; --kr-c:#AEB3AE; --kr-b:rgba(244,242,236,.06);
+  --on-dk2:var(--sage); --map-tx2:var(--sage);
   --zone:rgba(244,242,236,.03); --zone-ln:rgba(244,242,236,.28); --zone-hv:rgba(255,147,77,.16);}
 :root[data-theme="dark"] .d-photo,:root[data-theme="dark"] .cover img{filter:brightness(.9)}
 .drawer{color:var(--ink)}
@@ -226,6 +227,19 @@ main{min-height:60vh}
 .chk{display:inline-flex;align-items:center;gap:10px;min-height:44px;cursor:pointer;font-weight:600;justify-self:start}
 .chk input{width:22px;height:22px;margin:0;accent-color:var(--orange);cursor:pointer}
 .solo-note{font-size:min(.9rem,4vw);color:var(--on-dk2)}
+.spick{display:grid;gap:10px;margin-top:4px}
+.spick-h{display:flex;justify-content:space-between;align-items:baseline;gap:4px 16px;flex-wrap:wrap}
+.spick-h span{font-size:.85rem;font-weight:500;color:var(--on-dk2)}
+.spick-h b{font-size:.95rem;font-weight:700}
+.nights{display:flex;gap:0 20px;flex-wrap:wrap;border-bottom:1px solid var(--line-dk)}
+.nights button{min-height:44px;font-size:.95rem;font-weight:500;color:var(--on-dk2);border-bottom:2px solid transparent;margin-bottom:-1px}
+.nights button[aria-pressed="true"]{color:var(--on-dk);font-weight:700;border-bottom-color:var(--orange)}
+.smap{width:100%;height:auto;display:block;background:var(--map-bg);border:1px solid var(--line-dk)}
+.smap .zone text{font-size:30px}
+.smap .zone text.nn{font-size:26px;font-weight:700;fill:var(--terra-ink)}
+.smap .zone.on text.nn{fill:var(--on-orange)}
+.smap .zone.has path{fill:var(--zone-hv)}
+.spick-n{font-size:.85rem;color:var(--on-dk2)}
 .segs button{min-height:46px;text-align:center;font-weight:500;color:var(--on-dk2)}
 .segs button + button{border-left:1px solid var(--line-dk)}
 .segs button[aria-pressed="true"]{background:var(--seg-on);color:var(--seg-on-tx);font-weight:600;}
@@ -410,6 +424,8 @@ main{min-height:60vh}
   .sel{grid-template-columns:1fr auto;margin:0 20px}
   .sel .btn{grid-column:1/-1;justify-content:center}
   .zone text{font-size:40px}
+  .smap .zone text{font-size:44px}
+  .smap .zone text.nn{font-size:38px}
   .idx{grid-template-columns:1fr 1fr}
   .prev2 > div{grid-column:1/-1}
   .sumrow,.strip{grid-template-columns:1fr 1fr}
@@ -1033,6 +1049,39 @@ function makeCourse(seed) {
   }
   return { days };
 }
+/* 숙소·머물 지역은 섬 지도에서 고른다. 다시 누르면 추천대로 */
+const eachMode = () => !course.solo && !course.same && course.nights >= 2;
+function stayPicker() {
+  MAP = MAP || buildMap();
+  const each = eachMode(), act = Math.min(course.stayAt || 0, course.nights - 1);
+  const sel = course.solo ? course.soloR : each ? course.stays[act] : course.stays[0];
+  const nightsOf = id => course.stays.map((x, k) => x === id ? k + 1 : 0).filter(Boolean);
+  const nm = id => id ? esc(RBY[id].name) : "추천대로";
+  /* 성산·우도는 권역이 좁아 두 줄로 */
+  const label = (z, dy) => z.r.id === "seongsan"
+    ? `<text text-anchor="middle"><tspan x="${(z.c[0] - 12).toFixed(1)}" y="${(z.c[1] + dy - 16).toFixed(1)}">성산·</tspan><tspan x="${(z.c[0] - 12).toFixed(1)}" dy="1.05em">우도</tspan></text>`
+    : `<text x="${z.c[0].toFixed(1)}" y="${(z.c[1] + dy).toFixed(1)}" text-anchor="middle">${esc(z.r.name.replace(" · ", "·"))}</text>`;
+  const title = course.solo ? "머물 지역" : each ? "밤마다 숙소" : course.nights >= 2 ? `${course.nights}박 모두 같은 숙소` : "숙소";
+  const sum = course.solo ? nm(course.soloR) : each ? course.stays.map((x, k) => `${k + 1}박 ${nm(x)}`).join(" · ") : nm(course.stays[0]);
+  return `<div class="spick">
+      <div class="spick-h"><span>${title}</span><b>${sum}</b></div>
+      ${each ? `<div class="nights" role="group" aria-label="고를 밤">${course.stays.map((x, k) => `<button type="button" data-sat="${k}" aria-pressed="${k === act}">${k + 1}박째</button>`).join("")}</div>` : ""}
+      <svg class="smap" viewBox="0 0 ${MAP.W} ${MAP.H}" role="group" aria-label="${title}, 지도에서 고르기">
+      ${MAP.zones.map(z => { const id = z.r.id, on = sel === id, ns = each ? nightsOf(id) : [];
+        return `<g class="zone ${on ? "on" : ""} ${ns.length && !on ? "has" : ""}" tabindex="0" role="button" data-spick="${id}" aria-pressed="${on}" aria-label="${esc(z.r.name)}${ns.length ? `, ${ns.join("·")}박째` : ""}">
+        <path d="${z.d}"/>${label(z, ns.length ? -10 : 6)}${ns.length ? `<text class="nn" x="${(z.c[0] + (id === "seongsan" ? -12 : 0)).toFixed(1)}" y="${(z.c[1] + (id === "seongsan" ? 62 : 30)).toFixed(1)}" text-anchor="middle">${ns.join("·")}박</text>` : ""}</g>`; }).join("")}
+      <path class="coast" d="${MAP.isle}"/></svg>
+      <p class="spick-n">지역을 누르면 고르고, 한 번 더 누르면 추천대로 돌아갑니다.</p>
+    </div>`;
+}
+function pickStay(id) {
+  const tog = cur => cur === id ? "" : id;
+  if (course.solo) course.soloR = tog(course.soloR);
+  else if (eachMode()) { const a = Math.min(course.stayAt || 0, course.nights - 1); course.stays[a] = tog(course.stays[a]); if (course.stays[a] && a < course.nights - 1 && !course.stays[a + 1]) course.stayAt = a + 1; }
+  else { course.stays = course.stays.map(() => tog(course.stays[0])); }
+  course.msg = ""; changed();
+  document.querySelector(`.smap [data-spick="${id}"]`)?.focus({ preventScroll: true });
+}
 const MAJOR = h => /^(설날|추석)$/.test(h);
 function viewCourse() {
   const c = course.result, today = isoL(new Date());
@@ -1058,9 +1107,8 @@ function viewCourse() {
         <div class="f-col">
           <div class="stays"><span>숙소 위치 · 정하지 않으면 동선에 맞춰 추천합니다</span>
             <div class="chks"><label class="chk" for="optSolo"><input type="checkbox" id="optSolo" ${course.solo ? "checked" : ""}><span>한 지역에서만 여행하기</span></label><label class="chk" for="optExtra"><input type="checkbox" id="optExtra" ${course.extra ? "checked" : ""}><span>함께 들르기 좋은 곳 1곳 추가</span></label></div>
-            ${course.solo ? `<p class="solo-note">명소·카페는 이 지역 안에서만, 식당이 모자라면 옆 지역에서 골라요.</p><div class="stay-row"><label class="fld" for="soloR"><span>머물 지역</span><select id="soloR" data-solo="1"><option value="">추천대로</option>${R.map(r => `<option value="${r.id}" ${course.soloR === r.id ? "selected" : ""}>${esc(r.name)}</option>`).join("")}</select></label></div>` : `
-            ${course.nights >= 2 ? `<div class="segs two" role="group" aria-label="숙소 정하는 방법">${tg("same", true, "모든 밤 같은 곳")}${tg("same", false, "밤마다 고르기")}</div>` : ""}
-            <div class="stay-row">${Array.from({ length: course.same && course.nights >= 2 ? 1 : course.nights }, (_, i) => `<label class="fld" for="stay${i}"><span>${course.same && course.nights >= 2 ? `${course.nights}박 모두` : `${i + 1}박째`}</span><select id="stay${i}" data-stay="${i}"><option value="">추천대로</option>${R.map(r => `<option value="${r.id}" ${course.stays[i] === r.id ? "selected" : ""}>${esc(r.name)}</option>`).join("")}</select></label>`).join("")}</div>`}</div>
+            ${course.solo ? `<p class="solo-note">명소·카페는 이 지역 안에서만, 식당이 모자라면 옆 지역에서 골라요.</p>` : course.nights >= 2 ? `<div class="segs two" role="group" aria-label="숙소 정하는 방법">${tg("same", true, "모든 밤 같은 곳")}${tg("same", false, "밤마다 고르기")}</div>` : ""}
+            ${stayPicker()}</div>
           <div class="acts">
             <button class="btn primary" type="button" id="btnRoll">${course.dirty ? "이 조건으로 코스 짜기" : "다른 코스 보기"}</button>
             <span class="note">쉬는 날·공휴일은 피하고, 명소는 하루 세 곳까지.</span>
@@ -1156,7 +1204,7 @@ function setPick(id, focusMap) {
 document.addEventListener("click", e => {
   const fld = e.target.closest(".fld");
   if (fld) { const inp = fld.querySelector("input[type=date]"); if (inp) { if (e.target !== inp) e.preventDefault(); try { inp.showPicker(); } catch (err) { inp.focus(); } } }
-  const t = e.target.closest("[data-go],[data-region],[data-open],[data-close],[data-cat],[data-easy],[data-nights],[data-copy],[data-pick],[data-scroll],[data-s],[data-tg],[data-situ],[data-scat],[data-airport],[data-back],#btnRoll,#btnReset,#btnTheme");
+  const t = e.target.closest("[data-go],[data-region],[data-open],[data-close],[data-cat],[data-easy],[data-nights],[data-copy],[data-pick],[data-scroll],[data-s],[data-tg],[data-situ],[data-scat],[data-airport],[data-back],[data-spick],[data-sat],#btnRoll,#btnReset,#btnTheme");
   if (!t) return;
   if (t.dataset.close !== undefined) return closeDetail();
   if (t.dataset.back !== undefined) return goBack();
@@ -1164,6 +1212,8 @@ document.addEventListener("click", e => {
   if (t.dataset.copy) { const v = t.dataset.copy, fail = () => { t.textContent = "복사가 안 됐어요. 번호를 길게 눌러 복사하세요"; }; try { navigator.clipboard.writeText(v).then(() => { t.textContent = "복사했습니다"; }, fail); } catch (err) { fail(); } return; }
   if (t.dataset.s) { document.documentElement.classList.remove("s2", "s3"); if (t.dataset.s !== "1") document.documentElement.classList.add("s" + t.dataset.s); document.querySelectorAll("[data-s]").forEach(b => b.setAttribute("aria-pressed", String(b === t))); store.set("jeju-fs", t.dataset.s); return; }
   if (t.dataset.scroll) { document.getElementById(t.dataset.scroll)?.scrollIntoView({ behavior: "smooth", block: "start" }); document.querySelector(".idx button")?.focus({ preventScroll: true }); return; }
+  if (t.dataset.spick) return pickStay(t.dataset.spick);
+  if (t.dataset.sat) { course.stayAt = +t.dataset.sat; const y = window.scrollY; render(); window.scrollTo(0, y); document.querySelector(`[data-sat="${t.dataset.sat}"]`)?.focus({ preventScroll: true }); return; }
   if (t.dataset.pick) return setPick(t.dataset.pick, !!t.closest(".zone"));
   if (t.dataset.go) { e.preventDefault(); return go(t.dataset.go); }
   if (t.dataset.region) return go(t.dataset.region);
@@ -1175,7 +1225,7 @@ document.addEventListener("click", e => {
   if (t.dataset.situ) { situ = situ === t.dataset.situ ? null : t.dataset.situ; const y = window.scrollY; render(); window.scrollTo(0, y); return; }
   if (t.dataset.tg) { course[t.dataset.tg] = t.dataset.v === "1"; if (t.dataset.tg === "same") fitStays(); course.msg = ""; return changed(); }
   if (t.dataset.nights) { course.nights = +t.dataset.nights; fitStays(); course.to = ""; course.msg = ""; return changed(); }
-  if (t.id === "btnReset") { Object.assign(course, { nights: 2, easy: true, rain: false, from: "", to: "", stays: [], same: true, solo: false, soloR: "", extra: false }); fitStays(); course.msg = "처음 설정으로 돌리고 새 코스를 짰습니다."; reroll(); document.getElementById("btnReset")?.focus(); return; }
+  if (t.id === "btnReset") { Object.assign(course, { nights: 2, easy: true, rain: false, from: "", to: "", stays: [], same: true, solo: false, soloR: "", extra: false, stayAt: 0 }); fitStays(); course.msg = "처음 설정으로 돌리고 새 코스를 짰습니다."; reroll(); document.getElementById("btnReset")?.focus(); return; }
   if (t.id === "btnRoll") { course.msg = course.dirty ? "바꾼 조건으로 짰습니다." : ""; return reroll(); }
 });
 document.addEventListener("change", e => {
@@ -1200,7 +1250,7 @@ document.addEventListener("keydown", e => {
   }
   if (e.key !== "Enter" && e.key !== " ") return;
   const z = e.target.closest?.(".zone");
-  if (z) { e.preventDefault(); if (z.dataset.region) go(z.dataset.region); else setPick(z.dataset.pick, true); }
+  if (z) { e.preventDefault(); if (z.dataset.spick) pickStay(z.dataset.spick); else if (z.dataset.region) go(z.dataset.region); else setPick(z.dataset.pick, true); }
 });
 { const s = store.get("jeju-fs", "1"); if (s !== "1") { document.documentElement.classList.add("s" + s); document.querySelectorAll("[data-s]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.s === s))); } }
 const isDark = () => document.documentElement.dataset.theme === "dark";
