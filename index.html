@@ -1072,7 +1072,7 @@ function stayPicker() {
   const each = eachMode(), act = Math.min(course.stayAt || 0, course.nights - 1);
   const sel = course.solo ? course.soloR : each ? course.stays[act] : course.stays[0];
   const nightsOf = id => course.stays.map((x, k) => x === id ? k + 1 : 0).filter(Boolean);
-  const nm = id => id ? esc(RBY[id].name) : "추천대로";
+  const nm = id => id ? esc(RBY[id].name.replace(" · ", "·")) : "추천대로";
   const title = course.solo ? "머물 지역" : each ? "밤마다 숙소" : course.nights >= 2 ? `${course.nights}박 모두 같은 숙소` : "숙소";
   const sum = course.solo ? nm(course.soloR) : each ? course.stays.map((x, k) => `${k + 1}박 ${nm(x)}`).join(" · ") : nm(course.stays[0]);
   return `<div class="spick">
