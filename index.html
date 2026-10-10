@@ -1,7 +1,7 @@
-<title>천천히, 제주</title>
+<title>제주 여행 계획서</title>
 <meta name="description" content="부모님과 함께 고르는 제주. 걷는 거리와 이동 시간으로 고른 지역·식당·코스">
 <style>
-/* 천천히, 제주 — 디자인 체계
+/* 제주 여행 계획서 — 디자인 체계
    폭: 콘텐츠 최대 1280px, 좌우 여백 데스크톱 60px. 그리드: 12열, 열 간격 24px.
    색(밝게): 흰 바탕 · 글자 K100/K65/K55 3단 · 밝은 오렌지(선택) · 진한 오렌지(주요 버튼). 어둡게는 따로 정의.
    선: 기본 1px, 활성만 2px. 어두운 패널은 화면마다 오른쪽 위 핵심 모듈 하나에만 쓴다.
@@ -82,14 +82,15 @@ img{max-width:100%;display:block}
 
 /* 머리 — 세 화면 공통 */
 .mast{border-bottom:1px solid var(--line)}
-.mast .wrap{display:flex;align-items:center;gap:32px;height:76px}
-.brand{display:flex;align-items:center;gap:12px;text-decoration:none;min-height:44px;margin-right:auto}
+.mast .wrap{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:32px;height:76px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;min-height:44px;justify-self:start}
 .brand svg{width:30px;height:30px;flex:none}
 .brand b{font-size:1.15rem;font-weight:700;letter-spacing:-.03em;white-space:nowrap}
 .nav{display:flex;gap:28px}
 .nav button{min-height:44px;font-size:1rem;font-weight:500;color:var(--sage);border-bottom:2px solid transparent;white-space:nowrap}
 .nav button[aria-current="true"]{color:var(--navy);border-bottom-color:var(--terra)}
-.sizes{display:flex;align-items:center;gap:10px;padding-left:28px;border-left:1px solid var(--line);min-height:44px}
+.sizes{display:flex;align-items:center;gap:10px;min-height:44px;justify-self:end}
+.sizes .theme{margin-left:22px}
 .sizes > span{font-size:.8rem;font-weight:500;color:var(--mute);white-space:nowrap}
 .sizes .seg{display:flex;border:1px solid var(--line);border-radius:2px}
 .sizes button{min-height:44px;min-width:44px;padding:0 10px;font-weight:600;color:var(--sage);line-height:1;white-space:nowrap}
@@ -405,17 +406,22 @@ main{min-height:60vh}
   .days{grid-template-columns:repeat(2,minmax(0,1fr))}
   .cols3 > div{grid-column:1/-1;margin-bottom:24px}
 }
+@media (max-width:1000px){
+  .mast .wrap{display:flex;height:auto;flex-wrap:wrap;padding-block:10px 0;gap:6px 16px}
+  .brand{margin-right:auto}
+  .sizes .theme{margin-left:14px}
+  .brand{order:1}
+  .sizes{order:2;border-left:0;padding-left:0}
+  .sizes > span{display:none}
+  .nav{order:3;width:100%;gap:24px;overflow-x:auto;justify-content:center}
+}
 @media (max-width:860px){
   .cover-frame.split{grid-template-columns:1fr;gap:0;padding-inline:0}
   .r-map{padding:16px 16px 12px}
   .r-map svg{max-height:260px}
   .form.wide{grid-template-columns:1fr;row-gap:24px}
   .form.wide .stays{border-top:1px solid var(--line-dk);padding-top:20px}
-  .mast .wrap{height:auto;flex-wrap:wrap;padding-block:10px 0;gap:6px 16px}
-  .brand{order:1}
-  .sizes{order:2;border-left:0;padding-left:0}
   .sizes > span{display:none}
-  .nav{order:3;width:100%;gap:24px;overflow-x:auto}
   .foot .f-brand,.foot .f-info,.foot .f-cr{grid-column:1/-1}
   .foot .f-cr{justify-self:start}
   .foot .f-info{text-align:left;justify-items:start}
@@ -501,6 +507,8 @@ html.lock,html.lock body{overflow:hidden}
   .ex-h,.ex-list{grid-column:1/-1}
   .ex-list{border-top:0}
   .ex-meta{grid-template-columns:1fr}
+  .ex-row{grid-template-columns:minmax(0,1fr)}
+  .ex-row .go{display:none}
   .ex-meta div{display:grid;grid-template-columns:6.5rem minmax(0,1fr);gap:8px}
   .mast .wrap{padding-block:10px}
   .sizes{margin-left:auto}
@@ -515,9 +523,9 @@ html.lock,html.lock body{overflow:hidden}
 
 <header class="mast">
   <div class="wrap">
-    <a class="brand" href="#home" data-go="home" aria-label="천천히, 제주 처음 화면">
+    <a class="brand" href="#home" data-go="home" aria-label="제주 여행 계획서 처음 화면">
       <svg viewBox="0 0 34 34" aria-hidden="true"><path d="M7 21a10 10 0 0 1 20 0z" style="fill:var(--terra)"/><path d="M3 21h28" style="stroke:var(--ink)" stroke-width="1.6"/><path d="M8 26h18" style="stroke:var(--green-tx)" stroke-width="1.2"/></svg>
-      <b>천천히, 제주</b>
+      <b>제주 여행 계획서</b>
     </a>
     <nav class="nav" aria-label="주요 화면">
       <button type="button" data-go="home">지역 선택</button>
@@ -537,7 +545,7 @@ html.lock,html.lock body{overflow:hidden}
 <main id="screen"></main>
 <footer class="foot">
   <div class="wrap g">
-    <div class="f-brand"><b>천천히, 제주</b><span>부모님과 함께 고르는 제주</span></div>
+    <div class="f-brand"><b>제주 여행 계획서</b><span>부모님과 함께 고르는 제주</span></div>
     <div class="f-info">
       <b>정보 기준일</b>
       <p>2026년 10월 9일 · 카카오맵 장소 정보</p>
@@ -576,7 +584,7 @@ const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "
 const creditOf = id => { const c = (window.CREDITS || []).find(x => x.id === id); return c ? `사진: ${c.artist} / Wikimedia Commons, ${c.lic}` : ""; };
 const parts = h => String(h || "").split(" · ");
 const brkOf = h => (parts(h).find(x => x.startsWith("쉬는 시간")) || "").replace("쉬는 시간 ", "");
-const offOf = h => parts(h).find(x => x.endsWith("휴무")) || "";
+const offOf = h => (parts(h).find(x => x.endsWith("휴무")) || "").replace(/^([월화수목금토일](?:·[월화수목금토일])*) 휴무$/, (m, d) => "매주 " + d.split("·").map(x => x + "요일").join("·") + " 휴무");
 const openOf = h => parts(h).filter(x => !x.startsWith("쉬는 시간") && !x.endsWith("휴무")).join(" · ");
 const waitTxt = f => f.waitMin ? `${f.wait} · 후기상 약 ${f.waitMin}분` : f.wait;
 function km(a, b) { const t = Math.PI / 180, x = (b.lon - a.lon) * t * Math.cos((a.lat + b.lat) / 2 * t), y = (b.lat - a.lat) * t; return Math.sqrt(x * x + y * y) * 6371; }
@@ -720,8 +728,8 @@ function halfDay(r) {
   const food = [...r.foods].filter(lunchOk).sort((a, b) => a.tier - b.tier || driveMin(spot, a) - driveMin(spot, b))[0] || r.foods[0];
   return [spot, food, r.rest[0]].filter(Boolean);
 }
-const parkTxt = p => p.parking === false ? "전용 주차장 없음" : "주차 가능";
-const parkWord = p => p.parking === true ? "주차 가능" : p.parking === false ? "전용 주차장 없음" : "확인 필요";
+const parkTxt = p => p.parking === false ? "전용 주차장 없음" : "가능";
+const parkWord = p => p.parking === true ? "가능" : p.parking === false ? "전용 주차장 없음" : "확인 필요";
 const cafeRows = r => `<ol class="rows">${r.rest.map(c => `<li><button class="row fr" type="button" data-open="${c.id}">
             <span class="k">카페</span>
             <span><span class="nm">${esc(c.n)}</span><p class="why">${esc(c.d)} ${esc(c.tip)}</p></span>
@@ -772,7 +780,7 @@ function viewRegion(id) {
             <span class="k">${TIER[t]}<small>${TIER_DESC[t]}</small></span>
             <span><span class="cat">${CAT[f.cat]} · ${esc(f.m)}</span><span class="nm">${esc(f.n)}</span><p class="why">${esc(f.tip)}</p></span>
             <span class="v"><span class="lab">대기</span><span class="${f.wait === "많음" ? "hi" : ""}">${esc(waitTxt(f))}</span></span>
-            <span class="v"><span class="lab">주차</span>${f.parking === true ? "주차 가능" : f.parking === false ? "전용 주차장 없음" : "확인 필요"}</span>
+            <span class="v"><span class="lab">주차</span>${parkWord(f)}</span>
             <span class="go">자세히 →</span></button></li>`).join("")}</ol>`; }).join("") || `<p class="empty">이 지역에는 이 종류의 식당이 없습니다.</p>`)}
       </section>
 
@@ -830,20 +838,20 @@ function openDetail(id) {
   const kakaoTo = `https://map.kakao.com/link/to/${encodeURIComponent(p.n)},${p.lat},${p.lon}`;
   const naver = `https://map.naver.com/p/search/${encodeURIComponent(`${p.n} ${p.dong || ""}`.trim())}`;
   const hpLabel = u => /instagram/.test(u) ? "인스타그램" : /catchtable/.test(u) ? "캐치테이블(예약·줄서기)" : /blog\.naver/.test(u) ? "블로그" : /place\.naver/.test(u) ? "네이버 플레이스" : /facebook/.test(u) ? "페이스북" : "홈페이지";
-  const park = p.parking === true ? "주차 가능" : p.parking === false ? "전용 주차장 없음" : "확인 필요";
+  const park = p.parking === true ? "가능" : p.parking === false ? "전용 주차장 없음" : "확인 필요";
   const kv = (k, v, sub) => `<div><dt>${k}</dt><dd>${v}${sub ? `<span>${sub}</span>` : ""}</dd></div>`;
   const row = (k, v) => `<div><dt>${k}</dt><dd>${v}</dd></div>`;
   /* 꼭 필요한 것만 */
-  const hrs = esc(openOf(p.hours) || (isSpot || (isEx && !p.hours) ? "상시 개방" : "확인 필요")), off = esc(offOf(p.hours) || "정기 휴무 없음");
+  const hrs = esc(openOf(p.hours) || (isSpot || (isEx && !p.hours) ? "상시 개방" : "확인 필요")), off = esc(offOf(p.hours) || "정기 휴무 없음"), offK = off.replace(/ 휴무$/, "");
   const keys = isDrink
-    ? kv("영업시간", hrs) + kv("휴무", off) + kv("주차", park, esc(p.park || "")) + kv("대표 안주", esc(p.m))
+    ? kv("영업시간", hrs) + kv("휴무", offK) + kv("주차", park, esc(p.park || "")) + kv("대표 안주", esc(p.m))
     : isEx
     ? kv("머무는 시간", esc(p.stay), p.w === "mid" ? "걷는 길이 꽤 있어요" : "") + kv("동선", esc(detourOf(p))) + kv("주차", park, esc(p.park)) + kv("운영시간", hrs, off) + (p.wait ? kv("대기", esc(p.wait)) : "") + (p.prices[0] ? kv(p.fee ? "입장료" : "가격", esc(p.prices[0])) : "")
     : isSpot
     ? kv("걷기", WALK[p.w], esc(p.walk)) + kv("계단·경사", p.slopeYN, esc(p.slope)) + kv("주차", park, esc(parkShort(p.park))) + kv("화장실", esc(p.toilet.replace(/ (.*)$/, "")), (/(.*)/.exec(p.toilet) || [""])[0].replace(/[()]/g, "")) + kv("운영시간", hrs, off) + kv("입장료", esc(p.fee || "확인 필요"), p.addrNote ? esc(p.addrNote) : "")
     : isFood
-      ? kv("주차", park) + kv("운영시간", hrs) + kv("휴무", off) + kv("브레이크 타임", brkOf(p.hours) ? esc(brkOf(p.hours)) : "없음")
-      : kv("주차", park, esc(p.park || "")) + kv("영업시간", hrs) + kv("휴무", off) + kv("대표 메뉴", esc(p.prices[0] || "확인 필요"));
+      ? kv("주차", park) + kv("운영시간", hrs) + kv("휴무", offK) + kv("브레이크 타임", brkOf(p.hours) ? esc(brkOf(p.hours)) : "없음")
+      : kv("주차", park, esc(p.park || "")) + kv("영업시간", hrs) + kv("휴무", offK) + kv("대표 메뉴", esc(p.prices[0] || "확인 필요"));
   const info = `<div><dt>링크</dt><dd><a href="${kakaoPlace}" target="_blank" rel="noopener">카카오맵 장소 정보</a>${p.hp ? ` · <a href="${esc(p.hp)}" target="_blank" rel="noopener">${hpLabel(p.hp)}</a>` : ""}</dd></div><div><dt>확인일</dt><dd>2026년 10월 9일 · 최근 후기 <span class="tnum">${esc(p.last || "-")}</span></dd></div>`;
   const kind = isDrink ? `술 한잔 · ${esc(p.kind)}` : isEx ? `함께 들르기 · ${esc(p.kind)}` : isSpot ? `명소 · ${SCAT[p.sc] || ""}` : isFood ? `${TIER[p.tier]} 맛집 · ${CAT[p.cat]}` : "카페 · 쉬어가기";
   $("#drawerRoot").innerHTML = `<div class="scrim" data-close></div>
