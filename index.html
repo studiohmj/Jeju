@@ -155,6 +155,7 @@ main{min-height:60vh}
 .zone.on path{fill:var(--orange);stroke:var(--coast)}
 .zone.dim{opacity:.3}
 .zone text{pointer-events:none;fill:var(--map-tx);font-family:var(--font);font-size:24px;font-weight:500;letter-spacing:-.02em}
+.zone text.tight{font-size:22px}
 .zone.on text{font-weight:700;fill:var(--on-orange)}
 .zone:focus{outline:none}
 .zone:focus-visible path{stroke:var(--coast);stroke-width:3}
@@ -236,6 +237,7 @@ main{min-height:60vh}
 .nights button[aria-pressed="true"]{color:var(--on-dk);font-weight:700;border-bottom-color:var(--orange)}
 .smap{width:100%;height:auto;display:block;background:var(--map-bg);border:1px solid var(--line-dk)}
 .smap .zone text{font-size:30px}
+.smap .zone text.tight{font-size:26px}
 .smap .zone text.nn{font-size:26px;font-weight:700;fill:var(--terra-ink)}
 .smap .zone.on text.nn{fill:var(--on-orange)}
 .smap .zone.has path{fill:var(--zone-hv)}
@@ -424,7 +426,10 @@ main{min-height:60vh}
   .sel{grid-template-columns:1fr auto;margin:0 20px}
   .sel .btn{grid-column:1/-1;justify-content:center}
   .zone text{font-size:40px}
+  .zone text.tight{font-size:36px}
+  .smap .z-aewol{transform:translateY(5px)}
   .smap .zone text{font-size:44px}
+  .smap .zone text.tight{font-size:38px}
   .smap .zone text.nn{font-size:38px}
   .idx{grid-template-columns:1fr 1fr}
   .prev2 > div{grid-column:1/-1}
@@ -627,11 +632,14 @@ function buildMap() {
   const zones = R.map(r => { let poly = isle; for (const [k, s] of Object.entries(seeds)) if (k !== r.id) poly = clipHalf(poly, seeds[r.id], s); return { r, d: pathOf(poly), c: centroid(poly) }; });
   return { W, H, isle: pathOf(isle), zones };
 }
+/* 성산·우도는 권역이 좁아 글씨를 줄이고 안쪽으로 */
+const zx = z => z.c[0] + (z.r.id === "seongsan" ? -6 : z.r.id === "aewol" ? 6 : 0);
+const zoneLabel = (z, dy) => z.r.id === "seongsan" ? `<text class="z-seongsan tight" text-anchor="middle"><tspan x="${zx(z).toFixed(1)}" y="${(z.c[1] + dy - 12).toFixed(1)}">성산</tspan><tspan x="${zx(z).toFixed(1)}" dy="1.1em">우도</tspan></text>` : `<text class="z-${z.r.id}" x="${zx(z).toFixed(1)}" y="${(z.c[1] + dy + (z.r.id === "aewol" ? 4 : 0)).toFixed(1)}" text-anchor="middle">${esc(z.r.name.replace(" · ", "·"))}</text>`;
 function islandMap(nav) {
   MAP = MAP || buildMap();
   return `<svg viewBox="0 0 ${MAP.W} ${MAP.H}" role="group" aria-label="제주 지도. 지역을 눌러 고르세요">
     ${MAP.zones.map(z => `<g class="zone ${pick === z.r.id ? "on" : ""} ${typeof situ !== "undefined" && situ && !hits(z.r).length ? "dim" : ""}" tabindex="0" role="button" ${nav ? `data-region="${z.r.id}" aria-current="${pick === z.r.id ? "page" : "false"}" aria-label="${esc(z.r.name)} 안내로 이동"` : `data-pick="${z.r.id}" aria-pressed="${pick === z.r.id}" aria-label="${esc(z.r.name)}, 공항에서 차로 ${esc(z.r.drive)}"`}>
-      <path d="${z.d}"/><text x="${z.c[0].toFixed(1)}" y="${(z.c[1] + 6).toFixed(1)}" text-anchor="middle">${esc(z.r.name.replace(" · ", "·"))}</text></g>`).join("")}
+      <path d="${z.d}"/>${zoneLabel(z, 6)}</g>`).join("")}
     <path class="coast" d="${MAP.isle}"/>
   </svg>`;
 }
@@ -1057,10 +1065,6 @@ function stayPicker() {
   const sel = course.solo ? course.soloR : each ? course.stays[act] : course.stays[0];
   const nightsOf = id => course.stays.map((x, k) => x === id ? k + 1 : 0).filter(Boolean);
   const nm = id => id ? esc(RBY[id].name) : "추천대로";
-  /* 성산·우도는 권역이 좁아 두 줄로 */
-  const label = (z, dy) => z.r.id === "seongsan"
-    ? `<text text-anchor="middle"><tspan x="${(z.c[0] - 12).toFixed(1)}" y="${(z.c[1] + dy - 16).toFixed(1)}">성산·</tspan><tspan x="${(z.c[0] - 12).toFixed(1)}" dy="1.05em">우도</tspan></text>`
-    : `<text x="${z.c[0].toFixed(1)}" y="${(z.c[1] + dy).toFixed(1)}" text-anchor="middle">${esc(z.r.name.replace(" · ", "·"))}</text>`;
   const title = course.solo ? "머물 지역" : each ? "밤마다 숙소" : course.nights >= 2 ? `${course.nights}박 모두 같은 숙소` : "숙소";
   const sum = course.solo ? nm(course.soloR) : each ? course.stays.map((x, k) => `${k + 1}박 ${nm(x)}`).join(" · ") : nm(course.stays[0]);
   return `<div class="spick">
@@ -1069,7 +1073,7 @@ function stayPicker() {
       <svg class="smap" viewBox="0 0 ${MAP.W} ${MAP.H}" role="group" aria-label="${title}, 지도에서 고르기">
       ${MAP.zones.map(z => { const id = z.r.id, on = sel === id, ns = each ? nightsOf(id) : [];
         return `<g class="zone ${on ? "on" : ""} ${ns.length && !on ? "has" : ""}" tabindex="0" role="button" data-spick="${id}" aria-pressed="${on}" aria-label="${esc(z.r.name)}${ns.length ? `, ${ns.join("·")}박째` : ""}">
-        <path d="${z.d}"/>${label(z, ns.length ? -10 : 6)}${ns.length ? `<text class="nn" x="${(z.c[0] + (id === "seongsan" ? -12 : 0)).toFixed(1)}" y="${(z.c[1] + (id === "seongsan" ? 62 : 30)).toFixed(1)}" text-anchor="middle">${ns.join("·")}박</text>` : ""}</g>`; }).join("")}
+        <path d="${z.d}"/>${zoneLabel(z, ns.length ? -10 : 6)}${ns.length ? `<text class="nn" x="${zx(z).toFixed(1)}" y="${(z.c[1] + (id === "seongsan" ? 58 : 30)).toFixed(1)}" text-anchor="middle">${ns.join("·")}박</text>` : ""}</g>`; }).join("")}
       <path class="coast" d="${MAP.isle}"/></svg>
       <p class="spick-n">지역을 누르면 고르고, 한 번 더 누르면 추천대로 돌아갑니다.</p>
     </div>`;
