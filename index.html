@@ -1,3 +1,8 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>제주 여행 계획서</title>
 <meta name="description" content="부모님과 함께 고르는 제주. 걷는 거리와 이동 시간으로 고른 지역·식당·코스">
 <style>
@@ -36,7 +41,7 @@
   --font:"Pretendard Variable",Pretendard,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
   --gut:clamp(20px,4.4vw,60px);
 }
-html{font-size:18px}
+html{font-size:18px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 html.s2{font-size:20px} html.s3{font-size:22px}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--navy);font-family:var(--font);font-weight:400;font-size:1rem;line-height:1.7;letter-spacing:-.005em;word-break:keep-all;overflow-wrap:anywhere;-webkit-font-smoothing:antialiased}
@@ -170,8 +175,8 @@ main{min-height:60vh}
 .sel .btn{min-height:46px;padding:0 20px}
 .idx{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));column-gap:24px;list-style:none;margin:0;padding:0}
 .idx li{border-bottom:1px solid var(--line)}
-.idx button{width:100%;display:grid;grid-template-columns:34px minmax(0,1fr);align-items:baseline;column-gap:8px;row-gap:4px;min-height:64px;padding:20px 0 22px;border-bottom:2px solid transparent;margin-bottom:-1px}
-.idx .n{font-size:.95rem;font-weight:500;color:var(--mute)}
+.idx button{width:100%;display:grid;grid-template-columns:2.1em minmax(0,1fr);align-items:baseline;column-gap:8px;row-gap:4px;min-height:64px;padding:20px 0 22px;border-bottom:2px solid transparent;margin-bottom:-1px}
+.idx .n{font-size:.95rem;font-weight:500;color:var(--mute);white-space:nowrap}
 .idx b{font-size:1.05rem;font-weight:600;white-space:nowrap}
 .idx small{grid-column:2;font-size:.85rem;color:var(--sage);white-space:nowrap}
 .idx button:hover b{text-decoration:underline;text-underline-offset:5px;text-decoration-thickness:1px}
@@ -195,9 +200,9 @@ main{min-height:60vh}
 .ck-h{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding-block:20px 10px}
 .ck-h h3{font-size:1.22rem;font-weight:700}
 .ck{list-style:none;margin:0;padding:0;border-top:1px solid var(--navy)}
-.ck li{border-bottom:1px solid var(--line);display:grid;grid-template-columns:40px minmax(0,1fr);align-items:baseline;gap:8px;padding-block:18px;font-size:1.05rem;line-height:1.5}
+.ck li{border-bottom:1px solid var(--line);display:grid;grid-template-columns:2.2em minmax(0,1fr);align-items:baseline;gap:8px;padding-block:18px;font-size:1.05rem;line-height:1.5}
 .ck label{display:grid;grid-template-columns:36px 26px minmax(0,1fr);gap:14px;align-items:center;min-height:66px;padding-block:12px;cursor:pointer;font-size:1.05rem;line-height:1.5}
-.ck .no{font-size:1rem;color:var(--mute);font-weight:500}
+.ck .no{font-size:1rem;color:var(--mute);font-weight:500;white-space:nowrap}
 .ck input{appearance:none;-webkit-appearance:none;width:24px;height:24px;margin:0;border:1.5px solid var(--navy);border-radius:2px;display:grid;place-items:center;cursor:pointer;background:transparent}
 .ck input:checked + span{color:var(--sage)}
 .ck-more{margin-top:8px}
@@ -243,7 +248,7 @@ main{min-height:60vh}
 .smap .zone.on text.nn{fill:var(--on-orange)}
 .smap .zone.has path{fill:var(--zone-hv)}
 .spick-n{font-size:.85rem;color:var(--on-dk2)}
-.segs button{min-height:46px;text-align:center;font-weight:500;color:var(--on-dk2)}
+.segs button{min-height:46px;text-align:center;font-weight:500;color:var(--on-dk2);white-space:nowrap}
 .segs button + button{border-left:1px solid var(--line-dk)}
 .segs button[aria-pressed="true"]{background:var(--seg-on);color:var(--seg-on-tx);font-weight:600;}
 .segs.auto button[aria-pressed="true"]{background:transparent;color:var(--on-dk);box-shadow:inset 0 -2px 0 var(--terra)}
@@ -268,11 +273,11 @@ main{min-height:60vh}
 .day .dstat b{color:var(--navy)}
 .day .hol{font-size:.9rem;font-weight:600;color:var(--terra-ink)}
 .tl{list-style:none;margin:0;padding:0;border-top:1px solid var(--navy);align-self:start}
-.tl li > *{display:grid;grid-template-columns:56px minmax(0,1fr);gap:10px;padding:13px 0;border-bottom:1px solid var(--line);width:100%}
-.tl time{font-size:.95rem;font-weight:500;color:var(--mute)}
+.tl li > *{display:grid;grid-template-columns:3.3em minmax(0,1fr);gap:12px;padding:13px 0;border-bottom:1px solid var(--line);width:100%}
+.tl time{font-size:.95rem;font-weight:500;color:var(--mute);white-space:nowrap}
 .tl b{display:block;font-weight:700;font-size:1rem}
 .tl small{display:block;font-size:.85rem;color:var(--sage)}
-.tl .k{display:inline-block;font-size:.84rem;font-weight:700;padding:1px 7px;border-radius:2px;margin-right:8px;vertical-align:1px}
+.tl .k{display:inline-block;white-space:nowrap;font-size:.84rem;font-weight:700;padding:1px 7px;border-radius:2px;margin-right:8px;vertical-align:1px}
 .tl .k{color:var(--kr-c);background:var(--kr-b);box-shadow:none}
 .tl .k.kf{color:var(--kf-c);background:var(--kf-b);box-shadow:none}
 .tl .k.ks{color:var(--ks-c);background:var(--ks-b);box-shadow:none}
@@ -314,9 +319,9 @@ main{min-height:60vh}
 .sec-h p{font-size:.95rem;color:var(--sage)}
 .rows{list-style:none;margin:0;padding:0}
 .rows > li{border-bottom:1px solid var(--line)}
-.rows .row{width:100%;display:grid;grid-template-columns:56px minmax(0,1fr) 12rem 14rem 6rem;gap:24px;align-items:start;padding-block:20px}
+.rows .row{width:100%;display:grid;grid-template-columns:3em minmax(0,1fr) 12rem 14rem 6rem;gap:24px;align-items:start;padding-block:20px}
 .rows .row:hover .nm{text-decoration:underline;text-underline-offset:5px;text-decoration-thickness:1px}
-.rows .k{font-size:.95rem;font-weight:600;color:var(--accent-ink);padding-top:4px}
+.rows .k{font-size:.95rem;font-weight:600;color:var(--accent-ink);padding-top:4px;white-space:nowrap}
 .rows .nm{font-size:1.3rem;font-weight:700;line-height:1.35;letter-spacing:-.02em}
 .rows .cat{display:block;font-size:.85rem;color:var(--mute);font-weight:500;margin-bottom:2px}
 .rows .why{font-size:1rem;color:var(--sage);margin-top:6px}
@@ -327,13 +332,13 @@ main{min-height:60vh}
 .hi{color:var(--accent-ink)}
 .rows .row.fr{grid-template-columns:10rem minmax(0,1fr) 12rem 12rem 6rem}
 .rows .row.fr .k{font-size:1.05rem;font-weight:700}
-.rows .k small{display:block;font-size:.85rem;font-weight:400;color:var(--sage);margin-top:2px}
+.rows .k small{white-space:normal;display:block;font-size:.85rem;font-weight:400;color:var(--sage);margin-top:2px}
 .empty{padding-block:24px;color:var(--sage)}
 .three{column-gap:24px}
 .three > div{grid-column:span 4;border-top:1px solid var(--navy);padding-top:18px;display:grid;gap:14px;align-content:start}
 .three h2{font-size:1.56rem;font-weight:700}
 .lines{list-style:none;margin:0;padding:0}
-.lines li{padding:14px 0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:34px minmax(0,1fr);gap:8px;font-size:1rem}
+.lines li{padding:14px 0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:1.8em minmax(0,1fr);gap:8px;font-size:1rem}
 .lines.named li{grid-template-columns:minmax(0,1fr);gap:2px}
 .lines .lab{display:block;font-size:.85rem;font-weight:600;color:var(--accent-ink)}
 .lines .k{color:var(--accent-ink);font-weight:600}
@@ -396,7 +401,7 @@ main{min-height:60vh}
 @media (max-width:1180px){
   .split .cover p{font-size:1rem}
   .idx{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .rows .row{grid-template-columns:48px minmax(0,1fr) 11rem 12rem}
+  .rows .row{grid-template-columns:2.6em minmax(0,1fr) 11rem 12rem}
   .rows .row.fr{grid-template-columns:8rem minmax(0,1fr) 11rem 10rem}
   .rows .go{display:none}
   .top-copy,.top-mod{grid-column:1/-1}
@@ -443,7 +448,7 @@ main{min-height:60vh}
   .days{grid-template-columns:1fr;row-gap:40px}
   .day{grid-row:auto;grid-template-rows:auto}
   .three > div{grid-column:1/-1;margin-bottom:32px}
-  .rows .row,.rows .row.fr{grid-template-columns:40px minmax(0,1fr);gap:6px 16px;padding-block:20px}
+  .rows .row,.rows .row.fr{grid-template-columns:2.2em minmax(0,1fr);gap:6px 16px;padding-block:20px}
   .rows .row.fr .k,.rows .row.fr > span:nth-child(2),.rows .row.fr .v{grid-column:1/-1}
   .rows .row.fr .k small{display:inline;margin-left:8px}
   .rows .v{grid-column:2}
@@ -454,7 +459,7 @@ main{min-height:60vh}
   }
 @media (max-width:600px){
   .idx{grid-template-columns:1fr}
-  html{font-size:18px}
+  html{font-size:18px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
   .kicker,.meta,.strip dt,.rows .cat,.rows .v .lab,.idx small,.idx .n,.day .dn,.day .stay,.tl small,.tl time,.lines .lab,.lines .drive,.src,.fld span,.stays > span,.form .or > span,.acts .note,.sel .no,.sel .drv span,.foot .f-brand span,.foot .f-info p,.d-bar span,.situ span,.keys dt,.grp dt,.keys dd span,.grp h3 small{font-size:.86rem}
   .rows .why,.rows .v small,.lines small,.strip dd span,.lead,.d-head p{font-size:.92rem;line-height:1.6}
   .rows .nm{font-size:1.25rem}
@@ -518,8 +523,22 @@ html.lock,html.lock body{overflow:hidden}
   body{padding-bottom:calc(62px + env(safe-area-inset-bottom,0px))}
   .foot{margin-top:56px}
 }
+/* 좁은 휴대폰이나 큰 글씨에서는 기간 버튼을 2줄 2칸으로 */
+@media (max-width:420px){
+  html.s2 .sel,html.s3 .sel{grid-template-columns:1fr}
+  html.s2 .segs:not(.two),html.s3 .segs:not(.two){grid-template-columns:1fr 1fr}
+  html.s2 .segs:not(.two) button:nth-child(3),html.s3 .segs:not(.two) button:nth-child(3){border-left:0}
+  html.s2 .segs:not(.two) button:nth-child(n+3),html.s3 .segs:not(.two) button:nth-child(n+3){border-top:1px solid var(--line-dk)}
+}
+@media (max-width:340px){
+  .segs:not(.two){grid-template-columns:1fr 1fr}
+  .segs:not(.two) button:nth-child(3){border-left:0}
+  .segs:not(.two) button:nth-child(n+3){border-top:1px solid var(--line-dk)}
+}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
+</head>
+<body>
 
 <header class="mast">
   <div class="wrap">
@@ -1162,8 +1181,8 @@ function viewPrep() {
   return `<section class="wrap g top">
       <div class="top-copy">
         <span class="kicker">여행 준비</span>
-        <h1 class="page-h"><span>여행 전후로</span><span>한 번씩</span></h1>
-        <p class="lead">떠나기 전, 여행 중, 돌아오기 전. 필요한 것만 짧게 확인하세요.</p>
+        <h1 class="page-h"><span>여행 전후로</span><span>한 번씩 확인해 볼 것들</span></h1>
+        <p class="lead">떠나기 전, 여행 중, 돌아오기 전 체크리스트</p>
       </div>
     </section>
     <section class="wrap blk">
@@ -1206,6 +1225,20 @@ function go(r, fromPop) {
 }
 function goBack() { if (hIdx > 0) { try { history.back(); return; } catch (e) {} } go("home"); }
 const changed = () => { course.dirty = true; course.msg = course.msg || "조건을 바꿨습니다. 버튼을 누르면 새 코스를 짭니다."; const y = window.scrollY; render(); window.scrollTo(0, y); };
+/* 날짜를 고르는 동안에는 날짜 칸을 다시 만들지 않는다. 다시 만들면 휴대폰 달력이 닫힌다 */
+function softCourse() {
+  const live = $("#screen"), tpl = document.createElement("div"); tpl.innerHTML = viewCourse();
+  const lc = [...live.querySelectorAll(".f-col")], tc = [...tpl.querySelectorAll(".f-col")];
+  if (lc.length !== 2 || tc.length !== 2) { const y = window.scrollY; render(); window.scrollTo(0, y); return; }
+  const lk = [...lc[0].children], tk = [...tc[0].children];
+  tk.forEach((c, i) => { if (!c.classList.contains("row2") && lk[i]) lk[i].replaceWith(c); });
+  lc[1].replaceWith(tc[1]);
+  live.querySelector("section.blk")?.replaceWith(tpl.querySelector("section.blk"));
+  const fi = $("#dFrom"), ti = $("#dTo");
+  ti.min = course.from || isoL(new Date());
+  if (fi.value !== course.from) fi.value = course.from;
+  if (ti.value !== course.to) ti.value = course.to;
+}
 const reroll = () => { course.dirty = false; course.result = makeCourse(Date.now() % 1e9); course.source = "rule"; render(); };
 function setPick(id, focusMap) {
   pick = id; render();
@@ -1215,7 +1248,8 @@ function setPick(id, focusMap) {
 
 document.addEventListener("click", e => {
   const fld = e.target.closest(".fld");
-  if (fld) { const inp = fld.querySelector("input[type=date]"); if (inp) { if (e.target !== inp) e.preventDefault(); try { inp.showPicker(); } catch (err) { inp.focus(); } } }
+  /* 날짜 칸: 터치 화면에서 입력칸을 누르면 휴대폰 달력만 연다(두 번 열면 바로 닫힘). 라벨이나 PC에서는 직접 연다 */
+  if (fld) { const inp = fld.querySelector("input[type=date]"); if (inp && !(e.target === inp && matchMedia("(pointer:coarse)").matches)) { if (e.target !== inp) e.preventDefault(); try { inp.showPicker(); } catch (err) { inp.focus(); } } }
   const t = e.target.closest("[data-go],[data-region],[data-open],[data-close],[data-cat],[data-easy],[data-nights],[data-copy],[data-pick],[data-scroll],[data-s],[data-tg],[data-situ],[data-scat],[data-airport],[data-back],[data-spick],[data-sat],#btnRoll,#btnReset,#btnTheme");
   if (!t) return;
   if (t.dataset.close !== undefined) return closeDetail();
@@ -1246,7 +1280,7 @@ document.addEventListener("change", e => {
   else if (id === "optExtra") course.extra = el.checked;
   else if (el.dataset.solo !== undefined) course.soloR = el.value;
   else if (el.dataset.stay !== undefined) { course.stays[+el.dataset.stay] = el.value; if (course.same) fitStays(); }
-  else if (id === "dFrom" || id === "dTo") { course[id === "dFrom" ? "from" : "to"] = el.value; if (id === "dFrom" && course.to && course.to <= course.from) course.to = ""; syncDates(); }
+  else if (id === "dFrom" || id === "dTo") { course[id === "dFrom" ? "from" : "to"] = el.value; if (id === "dFrom" && course.to && course.to <= course.from) course.to = ""; syncDates(); course.dirty = true; course.msg = course.msg || "조건을 바꿨습니다. 버튼을 누르면 새 코스를 짭니다."; return softCourse(); }
   else return;
   changed();
 });
@@ -1281,3 +1315,5 @@ window.addEventListener("popstate", e => {
 });
 
 </script>
+</body>
+</html>
